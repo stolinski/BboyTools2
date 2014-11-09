@@ -1,0 +1,49 @@
+<div ng-controller="MovesCtr">
+	<h1 class="page-title">Tora's Move Book</h1>
+	<button class="btn btn-primary" ng-click="newMove = true" ng-show="!newMove"><img src="/img/add-white.svg" alt="">Add New Move</button>
+
+	<form class="add-move" ng-show="newMove">
+		<img class="close" ng-click="newMove = false" src="/img/clear.svg" alt="Close">
+		<h3>New Move</h3>
+		<label>
+			Name:
+			<input ng-model="moveBody" type="text">
+		</label>
+		<label>
+			Type:
+			<select ng-model="moveType" id="">
+				<option value="toprock">Toprock</option>
+				<option value="go-down">Go Down</option> 
+				<option value="footwork">Footwork</option>
+				<option value="power">Power</option>
+				<option value="freeze">Freeze</option>
+				<option value="burner">Burner</option>
+			</select>
+		</label>
+		<label>
+			Value:
+			<input type="range" ng-model="moveValue" min="1" max="10">{{moveValue}}
+		</label>
+		<label>
+			Clip:
+			<input type="text" ng-model="moveClip">
+		</label>			
+		<button class="btn btn-save" ng-click="addMove()"><img src="/img/save-white.svg" alt="">Save New Move</button>
+	</form>
+
+	<div class="moves-wrapper">
+		<div class="moves" ng-repeat="type in ['toprock', 'go-down', 'footwork', 'power', 'freeze', 'burner' ]">
+			<h3>{{type}}</h3>
+			<div class="move {{move.type}}" ng-repeat="move in moves | orderBy: '-date' | filter:type">
+				<div class="move-value">{{move.value}}</div>
+				<div class="edit-controlls">
+					<img src="/img/edit.svg" alt="Edit">
+				</div>
+				<div class="details">
+					<h4>{{move.body}}</h4>
+					<a href="{{move.clip}}" target="_blank"><img src="/img/video.svg" alt="">Watch Here</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
