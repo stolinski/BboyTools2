@@ -294,7 +294,7 @@ nav > ul > li > ul {
   display: none;
 }
 .container {
-  width: 80%;
+  width: 95%;
   margin: 0 auto;
   *zoom: 1;
 }
@@ -306,6 +306,16 @@ nav > ul > li > ul {
 .container:after {
   clear: both;
 }
+@media only screen and (min-width: 800px) {
+  .container {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 1050px) {
+  .container {
+    width: 80%;
+  }
+}
 .page-title {
   font-size: 3rem;
   margin: 40px 0;
@@ -315,7 +325,7 @@ nav > ul > li > ul {
   float: left;
   clear: none;
   text-align: inherit;
-  width: 48.5%;
+  width: 100%;
   margin-left: 0%;
   margin-right: 3%;
 }
@@ -337,6 +347,28 @@ nav > ul > li > ul {
   font-size: 2rem;
   text-transform: capitalize;
   margin: 1rem 0 0.8rem;
+}
+@media only screen and (min-width: 800px) {
+  .moves {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 48.5%;
+    margin-left: 0%;
+    margin-right: 3%;
+  }
+  .moves:before,
+  .moves:after {
+    content: '';
+    display: table;
+  }
+  .moves:after {
+    clear: both;
+  }
+  .moves:last-child {
+    margin-right: 0%;
+  }
 }
 .move {
   overflow: hidden;

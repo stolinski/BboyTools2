@@ -1,5 +1,5 @@
 angular
-	.module('app', ['ui.router'])
+	.module('app', ['ui.router', 'ngAnimate'])
 	.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
 
       $stateProvider
@@ -16,8 +16,7 @@ angular
         	templateUrl: "partials/battle-mode.html"
         })        
     }
- ])
-.controller('MovesCtr', function($scope, MovesSvc) {
+]).controller('MovesCtr', function($scope, MovesSvc) {
 	$scope.newMove = false;
 
 	MovesSvc.fetch().success(function(moves) {
@@ -38,9 +37,7 @@ angular
 			});	
 		}
 	}
-})
-
-.controller('ThirtyCtrl', ['$scope', '$timeout', function($scope, $timeout) {
+}).controller('ThirtyCtrl', ['$scope', '$timeout', function($scope, $timeout) {
   $scope.time = 0;
   
   function countdown() {
@@ -59,6 +56,17 @@ angular
   $scope.reset = function() {
     $scope.time = 0;
   };
+}])
 
 
-}]);
+
+.controller('BattleCtrl', function($scope, MovesSvc) {
+	$scope.newMove = false;
+
+	MovesSvc.fetch().success(function(moves) {
+		$scope.moves = moves;
+	});
+
+})
+
+

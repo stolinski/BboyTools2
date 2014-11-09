@@ -1,4 +1,7 @@
 @import 'jeet'
+@import 'rupture'
+@import 'typographic'
+
 @import reset
 
 @import vars
@@ -79,9 +82,13 @@ nav
 			}
 
 .container
-  width 80% 
+  width 95% 
   margin 0 auto 
   cf()
+  +above(4)
+    width 90% 
+  +above(5)
+    width 80%     
 
 .page-title
   font-size 3rem
@@ -89,13 +96,15 @@ nav
 
 
 .moves
-  column(2/4)
+  column(1/1)
   &:nth-child(even)
     margin-right 0 
   > h3
     font-size 2rem
     text-transform capitalize 
     margin 1rem 0 .8rem 
+  +above(4)
+    column(1/2)
 
 .move
   overflow hidden

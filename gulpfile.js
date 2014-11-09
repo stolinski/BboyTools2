@@ -4,7 +4,9 @@ var gulp = require('gulp'),
 	uglify = require("gulp-uglify"),
 	ngAnnotate = require("gulp-ng-annotate"),
 	nodemon = require("gulp-nodemon"),
-	jeet = require("jeet");
+	jeet = require("jeet"),
+	typographic = require("typographic"),
+	rupture = require("rupture");
 
 gulp.task('dev:server', function(){
 	nodemon({
@@ -23,7 +25,7 @@ gulp.task('js', function(){
 gulp.task("css", function () {  
 	gulp.src("stylus/main.styl")
 		.pipe(stylus({
-			use: [jeet()]
+			use: [jeet(),rupture(), typographic()]
 		}))
 		.pipe(gulp.dest("assets"));
 });
