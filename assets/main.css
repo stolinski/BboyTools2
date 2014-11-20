@@ -157,6 +157,37 @@ input,
 select {
   vertical-align: middle;
 }
+.form-group {
+  position: relative;
+}
+.form-group label {
+  position: absolute;
+  bottom: 8px;
+  left: 20px;
+  margin: 0;
+  transition: 0.2s all ease;
+}
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  margin-top: 60px;
+  transition: 0.2s all ease;
+}
+.form-group input[type="text"]:focus + label,
+.form-group input[type="password"]:focus + label,
+.form-group input[type="text"]:valid + label,
+.form-group input[type="password"]:valid + label {
+  bottom: 40px;
+  font-size: 16px;
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="text"]:valid,
+.form-group input[type="password"]:valid,
+.form-group input[type="text"]:invalid,
+.form-group input[type="password"]:invalid {
+  outline: none;
+  background: #eee;
+}
 form {
   background: #fff;
   padding: 20px;
@@ -169,16 +200,17 @@ form h3 {
 }
 form label {
   display: block;
-  margin-bottom: 10px;
-  height: 40px;
+  margin: 30px 0;
 }
 form input {
   font-size: 1.4rem;
   width: 40%;
+  margin-left: 10px;
 }
-form input[type="text"] {
+form input[type="text"],
+form input[type="password"] {
   border: none;
-  border-bottom: 4px solid #999;
+  border-bottom: 3px solid #ccc;
 }
 form .close {
   width: 40px;
@@ -213,10 +245,55 @@ input[type=range]:focus {
 input[type=range]:focus::-webkit-slider-runnable-track {
   background: #ccc;
 }
+nav {
+  float: right;
+}
+nav > ul > li {
+  display: inline-block;
+  position: relative;
+}
+nav > ul > li:hover > a {
+  background: #666;
+  border-bottom: 5px solid #3498db;
+  box-shadow: 0 0 4px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.28);
+}
+nav > ul > li > ul {
+  z-index: -1;
+  position: absolute;
+  text-align: right;
+  right: 0;
+  top: 60px;
+  width: 150px;
+  background: #333;
+  box-shadow: 0 0 4px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.28);
+}
+nav > ul > li > ul li {
+  width: 100%;
+}
+nav > ul > li > ul li:hover > a {
+  background: #666;
+  border-bottom: none;
+  box-shadow: 0 0 4px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.28);
+}
+nav > ul > li > ul a {
+  border-bottom: none;
+  width: 100%;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0 20px;
+  transition: all 0.2s ease;
+}
+nav li {
+  cursor: pointer;
+}
 body {
   color: #333;
   font-family: 'Roboto Condensed', sans-serif;
   background: url("/img/bg.png");
+  padding-top: 60px;
 }
 .btn {
   border: none;
@@ -265,9 +342,14 @@ body {
   background: #139a4c;
 }
 header {
-  padding: 20px;
+  line-height: 60px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 60px;
   background: #333;
   color: #fff;
+  z-index: 6;
   box-shadow: 0 0 4px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.28);
   *zoom: 1;
 }
@@ -283,15 +365,6 @@ header:after {
 }
 header:after {
   clear: both;
-}
-nav {
-  float: right;
-}
-nav > ul > li {
-  display: inline-block;
-}
-nav > ul > li > ul {
-  display: none;
 }
 .container {
   width: 95%;
@@ -316,9 +389,24 @@ nav > ul > li > ul {
     width: 80%;
   }
 }
+.page-intro {
+  *zoom: 1;
+}
+.page-intro:before,
+.page-intro:after {
+  content: '';
+  display: table;
+}
+.page-intro:after {
+  clear: both;
+}
+.page-intro > .btn {
+  float: right;
+}
 .page-title {
   font-size: 3rem;
   margin: 40px 0;
+  float: left;
 }
 .moves {
   *zoom: 1;

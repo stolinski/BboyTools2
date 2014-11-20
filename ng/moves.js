@@ -1,19 +1,19 @@
 angular
-	.module('app', ['ui.router', 'ngAnimate'])
+	.module('app', ['ui.router'])
 	.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
-
+      $urlRouterProvider.otherwise('/');
       $stateProvider
         .state("home", {
           url: "/",
-          templateUrl: "partials/moves.html"
-        })
+          templateUrl: "moves/moves.html"
+        })              
         .state("thirty", {
         	url: "/tools/3030",
-        	templateUrl: "partials/thirty.html"
+        	templateUrl: "tools/thirty.html"
         })
         .state("battle", {
         	url: "/tools/battle-mode",
-        	templateUrl: "partials/battle-mode.html"
+        	templateUrl: "tools/battle-mode.html"
         })        
     }
 ]).controller('MovesCtr', function($scope, MovesSvc) {
@@ -57,9 +57,6 @@ angular
     $scope.time = 0;
   };
 }])
-
-
-
 .controller('BattleCtrl', function($scope, MovesSvc) {
 	$scope.newMove = false;
 
@@ -68,5 +65,17 @@ angular
 	});
 
 })
+.controller('RegCtlr', function($scope) {
 
 
+})
+.controller('LogCtlr', function($scope, UserSvc) {
+	
+	$scope.login = function(username, password) {
+		UserSvc.login(username, password)
+			.then(function (user) {
+				console.log(user);
+			});
+	}
+
+})

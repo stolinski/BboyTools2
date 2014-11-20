@@ -1,7 +1,8 @@
 <div ng-controller="MovesCtr">
-	<h1 class="page-title">Tora's Move Book</h1>
-	<button class="btn btn-primary" ng-click="newMove = true" ng-show="!newMove"><img src="/img/add-white.svg" alt="">Add New Move</button>
-
+	<div class="page-intro">
+		<h1 class="page-title">Tora's Move Book</h1>
+		<button class="btn btn-primary" ng-click="newMove = true" ng-show="!newMove"><img src="/img/add-white.svg" alt="">Add New Move</button>
+	</div>
 	<form class="add-move" ng-show="newMove">
 		<img class="close" ng-click="newMove = false" src="/img/clear.svg" alt="Close">
 		<h3>New Move</h3>
@@ -26,7 +27,7 @@
 		</label>
 		<label>
 			Clip:
-			<input type="text" ng-model="moveClip">
+			<input type="text" ng-model="moveClip" placeholder="https://www.youtube.com/watch?v=Ar6OYy541RU&list=UUyU5wkjgQYGRB0hIHMwm2Sg">
 		</label>			
 		<button class="btn save" ng-click="addMove()"><img src="/img/save-white.svg" alt="">Save New Move</button>
 	</form>

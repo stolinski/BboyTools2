@@ -1,0 +1,39 @@
+// Main Navigation Styles
+
+hover(bb)
+	&:hover > a
+		background #666
+		border-bottom bb
+		box-shadow sh-high 	
+
+nav
+	float right
+	> ul
+		> li
+			display inline-block
+			position relative
+			hover(5px solid freeze)
+			> ul
+				z-index behind 
+				position absolute
+				text-align right
+				right 0
+				top 60px 
+				width 150px
+				background black 
+				box-shadow sh-high 
+				li
+					width 100% 
+					hover(none)
+				a
+					border-bottom none
+					width 100% 
+					   
+	a
+		color white
+		text-decoration none
+		display inline-block
+		padding 0 20px
+		transition all 0.2s ease
+	li
+		cursor pointer

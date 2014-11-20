@@ -4,7 +4,9 @@ var express = require('express'),
 router.use(express.static(__dirname + '/../assets'));
 
 router.get('/', function(req,res){
-	res.sendfile('assets/index.html');
+	console.log(req.user);
+	res.locals.user = req.user;
+	res.render('index');
 });
 
 module.exports = router;
