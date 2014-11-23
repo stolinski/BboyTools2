@@ -2,12 +2,12 @@ var db = require('../db');
 
 var Move = db.model('Move', {
 	username: {
-		type: String, 
+		type: String,
 		required: true
 	},
 
 	body: {
-		type: String, 
+		type: String,
 		required: true
 	},
 	date: {
