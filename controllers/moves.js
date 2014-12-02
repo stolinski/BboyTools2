@@ -2,7 +2,8 @@ var Move = require('../moves/move');
 var router = require('express').Router();
 
 router.get('/', function(req, res, next) {
-    Move.find().sort('-date').exec(function(err, moves) {
+    console.log(req.user);
+    Move.find({ '_user': req.user }).sort('-date').exec(function(err, moves) {
         if (err) {
             return next(err);
         }
@@ -16,9 +17,9 @@ router.post('/', function(req, res, next) {
         body: req.body.body,
         type: req.body.type,
         value: req.body.value,
-        clip: req.body.clip
+        clip: req.body.clip,
+        _user : req.user
     });
-
     move.save(function(err, move) {
         if (err) {
             return next(err);

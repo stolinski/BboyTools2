@@ -1,13 +1,16 @@
 <div ng-controller="BattleCtrl">
-	<h1 class="page-title">Battle Mode</h1>
-
+	<div class="page-intro">
+		<h1 class="page-title">Battle Mode</h1>
+		<button class="btn delete"><img src="/img/add-white.svg" alt=""> End Current Battle</button>
+	</div>
 	<div class="moves-wrapper">
 		<div class="moves" ng-repeat="type in ['toprock', 'go-down', 'footwork', 'power', 'freeze', 'burner' ]">
 			<h3>{{type}}</h3>
-			<div class="move {{move.type}}" ng-repeat="move in moves | orderBy: '-date' | filter:type">
+			<div class="move {{move.type}}" ng-repeat="move in moves | orderBy: '-date' | filter:type | battle:used">
 				<div class="move-value">{{move.value}}</div>
-				<div class="edit-controlls">
+				<div ng-click="useMove(move.body)" class="use-move">
 					<img src="/img/done.svg" alt="Use">
+					<span>Use Move</span>
 				</div>
 				<div class="details">
 					<h4>{{move.body}}</h4>

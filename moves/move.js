@@ -1,4 +1,6 @@
 var db = require('../db');
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var Move = db.model('Move', {
 	username: {
@@ -24,6 +26,10 @@ var Move = db.model('Move', {
 	},
 	clip: {
 		type: String
+	},
+	_user: {
+		type: ObjectId,
+		ref: 'User'
 	}
 });
 

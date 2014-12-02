@@ -10,15 +10,15 @@
 		<nav>
 			<ul>
 				<% if(user) { %>
-				<li><a href="/#/">Moves</a></li>
-				<li ng-init="tools = false" ng-click="tools=!tools"><a>Tools</a>
+				<li><a ng-class="{active:$state.includes('home')}" href="/#/">Moves</a></li>
+				<li <a ng-init="tools = false" ng-click="tools=!tools"><a ng-class="{active:$state.includes('battle')||$state.includes('thirty')}">Tools</a>
 					<ul ng-show="tools == true">
-						<li><a href="/#/tools/3030">30/30's</a></li>
-						<li><a href="/#/tools/battle-mode">Battle Mode</a></li>
+						<li><a ng-class="{active:$state.includes('thirty')}" href="/#/tools/3030">30/30's</a></li>
+						<li><a ng-class="{active:$state.includes('battle')}"href="/#/tools/battle-mode">Battle Mode</a></li>
 					</ul>
 				</li>				
 				<li>
-					<a href="/profile"><%= user.bboyname %></a>
+					<a href="/#/profile"><%= user.bboyname %></a>
 				</li>
 				<% } else { %>
 				<li><a href="/login">Login</a></li>
@@ -27,10 +27,12 @@
 			</ul>
 		</nav>
 	</header>
-		<%- body %>
-		</div>
+		<main>
+			<%- body %>
+		</main>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min.js"></script>
-		<script src="app.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-animate.min.js"></script>
+		<script src="/app.js"></script>
 	</body>
 </html>

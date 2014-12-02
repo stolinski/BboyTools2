@@ -1,5 +1,5 @@
 angular
-    .module('app', ['ui.router'])
+    .module('app')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider,   $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/');
@@ -16,13 +16,23 @@ angular
             url: '/tools/battle-mode',
             templateUrl: 'tools/battle-mode.html'
         })
+        .state('profile', {
+            url: '/profile',
+            templateUrl: 'user/profile.html'
+        })
     }
-]).controller('MovesCtr', function($scope, MovesSvc) {
+]).run(function($rootScope, $state) {
+    $rootScope.$state = $state;
+}).controller('MovesCtr', function($scope, MovesSvc) {
     $scope.newMove = false;
 
     MovesSvc.fetch().success(function(moves) {
         $scope.moves = moves;
     });
+
+    $scope.btnToggle = function(newMove) {
+        return !newMove ? 'Add New Move' : 'Cancel';
+    }
 
     $scope.addMove = function() {
         if ($scope.moveBody) {
@@ -60,6 +70,20 @@ angular
 }])
 .controller('BattleCtrl', function($scope, MovesSvc) {
     $scope.newMove = false;
+    $scope.used = [];
+
+    MovesSvc.fetch().success(function(moves) {
+        $scope.moves = moves;
+    });
+
+    $scope.useMove = function(moveId) {
+        $scope.used.push(moveId);
+        console.log($scope.used);
+    }
+
+})
+.controller('ProfileCtrl', function($scope, MovesSvc) {
+    $scope.newMove = false;
 
     MovesSvc.fetch().success(function(moves) {
         $scope.moves = moves;
@@ -77,4 +101,16 @@ angular
                 console.log(user);
             });
     }
-})
+}).filter('objectByKeyValFilter', function() {
+    return function(input, filterKey, filterVal) {
+
+        var filteredInput = {};
+
+        angular.forEach(input, function(value, key) {
+            if (value[filterKey] && value[filterKey] == filterVal) {
+                filteredInput[key] = value;
+            }
+        });
+        return filteredInput;
+    }
+});

@@ -17,9 +17,9 @@ gulp.task('dev:server', function() {
 });
 
 gulp.task('js', function() {
-    gulp.src(['ng/module.js','ng/**/*.js'])
+    gulp.src(['ng/module.js', 'ng/**/*.js'])
         .pipe(ngAnnotate())
-        .pipe(uglify()) 
+        .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(gulp.dest('assets'));
 });
