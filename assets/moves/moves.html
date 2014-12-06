@@ -1,7 +1,7 @@
-<div ng-controller="MovesCtr">
+<div ng-controller="MovesCtr as movesc">
 	<div class="page-intro">
 		<h1 class="page-title">Tora's Move Book</h1>
-		<button class="btn" ng-class="{ 'primary': !newMove, 'delete': newMove }" ng-click="newMove = !newMove"><img src="/img/add-white.svg" alt="">{{btnToggle(newMove)}}</button>
+		<button class="btn" ng-class="{ 'primary': !newMove, 'delete': newMove }" ng-click="newMove = !newMove"><img src="/img/add-white.svg" alt="">{{movesc.btnToggle(newMove)}}</button>
 	</div>
 	<form class="add-move" ng-show="newMove">
 		<h3>New Move</h3>
@@ -28,13 +28,13 @@
 			Clip:
 			<input type="text" ng-model="moveClip" placeholder="https://www.youtube.com/watch?v=Ar6OYy541RU&list=UUyU5wkjgQYGRB0hIHMwm2Sg">
 		</label>			
-		<button class="btn save" ng-click="addMove()"><img src="/img/save-white.svg" alt="">Save New Move</button>
+		<button class="btn save" ng-click="movesc.addMove()"><img src="/img/save-white.svg" alt="">Save New Move</button>
 	</form>
 
 	<div class="moves-wrapper">
 		<div class="moves" ng-repeat="type in ['toprock', 'go-down', 'footwork', 'power', 'freeze', 'burner' ]">
 			<h3>{{type}}</h3>
-			<div class="move {{move.type}}" ng-repeat="move in moves | orderBy: '-date' | objectByKeyValFilter:'type':type">
+			<div class="move {{move.type}}" ng-repeat="move in movesc.moves | orderBy: '-date' | objectByKeyValFilter:'type':type">
 				<div class="move-value"><span>{{move.value}}</span>Value</div>
 
 				<div class="edit-controlls">

@@ -1,5 +1,17 @@
-<div ng-controller="ThirtyCtrl">
-	<div class="timer">{{time}}</div>
-	<button ng-click="start()" class="save btn large">Start</button>
-	<button ng-click="stop()" class="delete btn large">Stop</button>
+<div ng-controller="ThirtyCtrl as thirty">
+	<div class="page-intro">
+		<h1 class="page-title">30/30's <img ng-init="infoBox = false" ng-click="infoBox = !infoBox" src="/img/info.svg" alt="Info"></h1>
+	</div>
+	<div ng-show="infoBox" class="info-box">
+		<p>30/30's are an exercise in creativity and endurance. 30 seconds on, 30 seconds off. If you are training with two people, one person should always be dancing, the other resting. With more than 2 people the resting bboys will have longer to rest.</p>
+		<p>Challenge your friends to see who can last the longest.</p>
+		<p><em>Variations: footwork only, 15sec Tops 15sec footwork, 3 Freezes in 30 seconds of footwork.</em></p>
+	</div>
+
+	<div class="timer">
+		{{thirty.time}}
+	</div>
+
+	<button ng-click="thirty.start()" class="save btn large">Start</button>
+	<button ng-click="thirty.stop()" class="delete btn large">Stop</button>
 </div>

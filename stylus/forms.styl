@@ -1,8 +1,7 @@
 input[type="text"], input[type="password"]
   transition 0.2s all ease
   &:focus, &:valid, &:invalid
-    outline none
-    background #EEE   
+    outline none 
   
     
 
@@ -16,7 +15,7 @@ form
     margin-bottom 30px 
   label
     display block
-    margin 30px 0
+    margin 0 0 10px
     transition 0.2s all ease
   input
     font-size 1.4rem
@@ -26,6 +25,7 @@ form
     &[type="text"], &[type="password"]
       border none
       border-bottom 3px solid #ccc
+      margin-bottom 30px 
   .close
     width 40px 
     position absolute

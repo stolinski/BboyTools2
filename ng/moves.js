@@ -1,116 +1,33 @@
 angular
     .module('app')
-    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider,   $urlRouterProvider) {
+    .controller('MovesCtr', MovesCtr);
 
-        $urlRouterProvider.otherwise('/');
-        $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'moves/moves.html'
-        })
-        .state('thirty', {
-            url: '/tools/3030',
-            templateUrl: 'tools/thirty.html'
-        })
-        .state('battle', {
-            url: '/tools/battle-mode',
-            templateUrl: 'tools/battle-mode.html'
-        })
-        .state('profile', {
-            url: '/profile',
-            templateUrl: 'user/profile.html'
-        })
-    }
-]).run(function($rootScope, $state) {
-    $rootScope.$state = $state;
-}).controller('MovesCtr', function($scope, MovesSvc) {
-    $scope.newMove = false;
+function MovesCtr(MovesSvc) {
+
+    var _this = this;
+
+    _this.newMove = false;
 
     MovesSvc.fetch().success(function(moves) {
-        $scope.moves = moves;
+        _this.moves = moves;
     });
 
-    $scope.btnToggle = function(newMove) {
+    _this.btnToggle = function(newMove) {
         return !newMove ? 'Add New Move' : 'Cancel';
     }
 
-    $scope.addMove = function() {
-        if ($scope.moveBody) {
+    _this.addMove = function() {
+        if (_this.moveBody) {
             MovesSvc.create({
                 username: 'tora',
-                body: $scope.moveBody,
-                type: $scope.moveType,
-                value: $scope.moveValue,
-                clip: $scope.moveClip,
+                body: _this.moveBody,
+                type: _this.moveType,
+                value: _this.moveValue,
+                clip: _this.moveClip,
             }).success(function(move) {
-                $scope.moves.unshift(move);
-                $scope.moveBody = null
+                _this.moves.unshift(move);
+                _this.moveBody = null
             });
         }
     }
-}).controller('ThirtyCtrl', ['$scope', '$timeout', function($scope, $timeout) {
-    $scope.time = 0;
-
-    function countdown() {
-        $scope.time++;
-        $scope.timeout = $timeout(countdown, 1000);
-    }
-
-    $scope.start = function() {
-        countdown();
-    };
-
-    $scope.stop = function() {
-        $timeout.cancel($scope.timeout);
-    };
-
-    $scope.reset = function() {
-        $scope.time = 0;
-    };
-}])
-.controller('BattleCtrl', function($scope, MovesSvc) {
-    $scope.newMove = false;
-    $scope.used = [];
-
-    MovesSvc.fetch().success(function(moves) {
-        $scope.moves = moves;
-    });
-
-    $scope.useMove = function(moveId) {
-        $scope.used.push(moveId);
-        console.log($scope.used);
-    }
-
-})
-.controller('ProfileCtrl', function($scope, MovesSvc) {
-    $scope.newMove = false;
-
-    MovesSvc.fetch().success(function(moves) {
-        $scope.moves = moves;
-    });
-
-})
-.controller('RegCtlr', function($scope) {
-
-})
-.controller('LogCtlr', function($scope, UserSvc) {
-
-    $scope.login = function(username, password) {
-        UserSvc.login(username, password)
-            .then(function(user) {
-                console.log(user);
-            });
-    }
-}).filter('objectByKeyValFilter', function() {
-    return function(input, filterKey, filterVal) {
-
-        var filteredInput = {};
-
-        angular.forEach(input, function(value, key) {
-            if (value[filterKey] && value[filterKey] == filterVal) {
-                filteredInput[key] = value;
-            }
-        });
-        return filteredInput;
-    }
-});
+};

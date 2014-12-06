@@ -1,12 +1,18 @@
-<div ng-controller="BattleCtrl">
+<div ng-controller="BattleCtrl as bmoves">
 	<div class="page-intro">
-		<h1 class="page-title">Battle Mode</h1>
-		<button class="btn delete"><img src="/img/add-white.svg" alt=""> End Current Battle</button>
+		<h1 class="page-title">Battle Mode <img ng-init="infoBox = false" ng-click="infoBox = !infoBox" src="/img/info.svg" alt="Info"></h1>
+		<button ng-click="endBattle()" class="btn delete"><img src="/img/add-white.svg" alt=""> End Current Battle</button>
 	</div>
+	<div ng-show="infoBox" class="info-box">
+		<p>30/30's are an exercise in creativity and endurance. 30 seconds on, 30 seconds off. If you are training with two people, one person should always be dancing, the other resting. With more than 2 people the resting bboys will have longer to rest.</p>
+		<p>Challenge your friends to see who can last the longest.</p>
+		<p><em>Variations: footwork only, 15sec Tops 15sec footwork, 3 Freezes in 30 seconds of footwork.</em></p>
+	</div>	
+
 	<div class="moves-wrapper">
 		<div class="moves" ng-repeat="type in ['toprock', 'go-down', 'footwork', 'power', 'freeze', 'burner' ]">
 			<h3>{{type}}</h3>
-			<div class="move {{move.type}}" ng-repeat="move in moves | orderBy: '-date' | filter:type | battle:used">
+			<div class="move {{move.type}}" ng-repeat="move in bmoves.moves | orderBy: '-date' | filter:type | battle:bmoves.used">
 				<div class="move-value">{{move.value}}</div>
 				<div ng-click="useMove(move.body)" class="use-move">
 					<img src="/img/done.svg" alt="Use">
