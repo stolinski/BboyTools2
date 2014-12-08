@@ -238,6 +238,17 @@ form.add-move.ng-hide {
   max-height: 0;
   opacity: 0;
 }
+.details input {
+  display: block;
+}
+.details input.edit-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.details input.edit-clip {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 1rem;
+}
 nav {
   float: right;
 }
@@ -467,6 +478,7 @@ header:after {
   }
 }
 .move {
+  display: block;
   overflow: hidden;
   padding: 1rem 1.2rem;
   background: #fff;
@@ -673,4 +685,44 @@ header:after {
 [ui-view].ng-leave-active {
   transform: translate3d(100%, 0, 0);
   opacity: 0;
+}
+.video-modal {
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 10%;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 10;
+  transition: all ease 0.5s;
+}
+.video-modal.ng-hide {
+  opacity: 0;
+}
+.video-modal.ng-hide .video-container {
+  opacity: 0;
+  transform: scale(0);
+}
+.video-modal .video-container {
+  display: inline-block;
+  position: relative;
+  line-height: 0;
+  box-shadow: 1px 1px 8px rgba(0,0,0,0.5);
+  transform-origin: 20% 40%;
+  transform: scale(1);
+  transition: all ease 0.5s;
+}
+.video-modal .video-container .close-modal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: rgba(0,0,0,0.9);
+  cursor: pointer;
+}
+.video-modal .video-container .close-modal img {
+  display: block;
+  width: 50px;
+  transform: rotate(45deg);
 }

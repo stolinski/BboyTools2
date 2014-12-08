@@ -34,17 +34,15 @@
 	<div class="moves-wrapper">
 		<div class="moves" ng-repeat="type in ['toprock', 'go-down', 'footwork', 'power', 'freeze', 'burner' ]">
 			<h3>{{type}}</h3>
-			<div class="move {{move.type}}" ng-repeat="move in movesc.moves | orderBy: '-date' | objectByKeyValFilter:'type':type">
-				<div class="move-value"><span>{{move.value}}</span>Value</div>
-
-				<div class="edit-controlls">
-					<img src="/img/edit.svg" alt="Edit">
-				</div>
-				<div class="details">
-					<h4>{{move.body}}</h4>
-					<a href="{{move.clip}}" target="_blank"><img src="/img/video.svg" alt="">Watch Here</a>
-				</div>
-			</div>
+			<move class="move {{move.type}}" ng-repeat="move in movesc.moves | orderBy: '-date' | objectByKeyValFilter:'type':type" />
+		</div>
+	</div>
+	<div class="video-modal" ng-show="movesc.videoModal">
+		<div ng-style="{ 'transform-origin' : movesc.modalOrigin }"  class="video-container">
+			<span class="close-modal">
+				<img ng-click="movesc.modalToggle()" src="/img/add-white.svg" alt="close modal">
+			</span>
+			<youtube-video video-url="movesc.modalVideo"></youtube-video>
 		</div>
 	</div>
 </div>

@@ -124,6 +124,7 @@ header
     column(1/2)
 
 .move
+  display block
   overflow hidden
   padding 1rem 1.2rem
   background #FFF 
@@ -292,3 +293,39 @@ header
 [ui-view].ng-leave-active 
   transform:translate3d(100%, 0, 0)
   opacity 0
+
+.video-modal
+  position fixed
+  text-align center
+  width 100%
+  height 100%
+  padding-top 10% 
+  top 0
+  left 0
+  background rgba(0, 0, 0, 0.8)
+  z-index 10
+  transition all ease 0.5s
+  &.ng-hide
+    opacity:0;
+    .video-container
+      opacity:0;
+      transform scale(0)
+  .video-container
+    display inline-block
+    position relative
+    line-height 0
+    box-shadow 1px 1px 8px rgba(#000, 0.5) 
+    transform-origin 20% 40%
+    transform scale(1)
+    transition all ease 0.5s
+    .close-modal
+      position absolute
+      right 0
+      top 0 
+      background rgba(0, 0, 0, 0.9)
+      cursor pointer
+      img
+        display block
+        width 50px 
+        transform rotate(45deg)
+        

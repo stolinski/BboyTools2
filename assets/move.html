@@ -1,0 +1,13 @@
+<div class="move-value">
+	<span>{{move.value}}</span>Value
+</div>
+<div class="edit-controlls" ng-click="editToggle()">
+	<img src="/img/edit.svg" alt="Edit">
+</div>
+<div class="details">
+	<h4 ng-show="!editMode" >{{move.body}}</h4>
+	<span ng-show="!editMode" class="move-clip" data-url="{{move.clip}}" ng-click="movesc.modalOpen($event, move.clip)"><img src="/img/video.svg" alt="">Watch Here</span>
+	<input class="edit-title" type="text" ng-show="editMode" value="{{move.body}}" ng-init="moveEditName = move.body" ng-model="moveEditName">
+	<input class="edit-clip" type="text" ng-show="editMode" ng-init="moveEditClip = move.clip" ng-model="moveEditClip">
+	<button class="btn save" ng-click="updateMove(move._id)" ng-show="editMode"><img src="/img/save-white.svg" alt="">Save New Move</button>
+</div>

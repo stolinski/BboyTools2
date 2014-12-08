@@ -1,1 +1,6 @@
-var app = angular.module('app', ['ui.router', 'ngAnimate', 'battleFilter']);
+var app = angular.module('app', [
+	'ui.router',
+	'ngAnimate',
+	'battleFilter',
+	'youtube-embed'
+]);
