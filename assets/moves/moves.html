@@ -37,12 +37,6 @@
 			<move class="move {{move.type}}" ng-repeat="move in movesc.moves | orderBy: '-date' | objectByKeyValFilter:'type':type" />
 		</div>
 	</div>
-	<div class="video-modal" ng-show="movesc.videoModal">
-		<div ng-style="{ 'transform-origin' : movesc.modalOrigin }"  class="video-container">
-			<span class="close-modal">
-				<img ng-click="movesc.modalToggle()" src="/img/add-white.svg" alt="close modal">
-			</span>
-			<youtube-video video-url="movesc.modalVideo"></youtube-video>
-		</div>
-	</div>
+	Parent scope: {{videoShow}}
+	<video-modal class="video-modal" ng-show="videoShow" />
 </div>

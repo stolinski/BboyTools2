@@ -1,8 +1,276 @@
-var app=angular.module("app",["ui.router","ngAnimate","battleFilter","youtube-embed"]);
-angular.module("battleFilter",[]).filter("battle",function(){return function(t,n){return t&&n?-1==n.indexOf(t[0].body)?t:!1:void 0}}).filter("objectByKeyValFilter",function(){return function(t,n,r){var e={};return angular.forEach(t,function(t,u){t[n]&&t[n]==r&&(e[u]=t)}),e}});
-angular.module("app").config(["$stateProvider","$urlRouterProvider",function(t,e){e.otherwise("/"),t.state("home",{url:"/",templateUrl:"moves/moves.html"}).state("thirty",{url:"/tools/3030",templateUrl:"tools/thirty.html"}).state("battle",{url:"/tools/battle-mode",templateUrl:"tools/battle-mode.html"}).state("profile",{url:"/profile",templateUrl:"user/profile.html"})}]).run(["$rootScope","$state",function(t,e){t.$state=e}]);
-angular.module("app").service("UserSvc",["$http",function(e){var t=this;t.getUser=function(){return e.get("/api/users",{headers:{"X-Auth":this.token}})},t.login=function(n,s){return e.post("/api/sessions",{username:n,password:s}).then(function(e){return t.token=e.data,t.getUser()})}}]);
-function MovesCtr(e){var o=this;o.newMove=!1,e.fetch().success(function(e){o.moves=e}),o.modalVideo="https://www.youtube.com/watch?v=18-xvIjH8T4",o.videoModal=!1,o.modalOrigin="0% 0%",o.modalToggle=function(){o.videoModal=!o.videoModal},o.modalOpen=function(e,t){o.modalVideo=t,o.modalOrigin=e.screenX+"px "+e.screenY+"px",o.videoModal=!o.videoModal},o.btnToggle=function(e){return e?"Cancel":"Add New Move"},o.addMove=function(){o.moveBody&&e.create({username:"tora",body:o.moveBody,type:o.moveType,value:o.moveValue,clip:o.moveClip}).success(function(e){o.moves.unshift(e),o.moveBody=null})}}angular.module("app").controller("MovesCtr",MovesCtr),MovesCtr.$inject=["MovesSvc"],app.directive("move",["MovesSvc",function(e){return{restrict:"E",templateUrl:"move.html",scope:!0,link:function(o,t){o.editToggle=function(){o.editMode=!o.editMode},o.updateMove=function(i){e.update(i,{body:o.moveEditName,clip:o.moveEditClip}).success(function(e){t.find("h4").text(e.body),t.find(".move-clip").attr("url",e.clip),o.editMode=!1})}}}}]);
-function MovesSvc(e){function t(){return e.get("/api/moves")}function n(t,n){return e.get("/api/moves/"+t,n)}function o(t){return e.post("/api/moves",t)}function c(t,n){return e.post("/api/moves/"+t,n)}var v=this;v.fetch=t,v.fetchOne=n,v.create=o,v.update=c}angular.module("app").service("MovesSvc",MovesSvc),MovesSvc.$inject=["$http"];
-function BattleCtrl(t){var e=this;e.newMove=!1,e.used=[],t.fetch().success(function(t){e.moves=t}),e.useMove=function(t){e.used.push(t)},e.endBattle=function(){e.used=[]}}angular.module("app").controller("BattleCtrl",BattleCtrl),BattleCtrl.$inject=["MovesSvc"];
-function ThirtyCtrl(t){function i(){n.time++,n.timeout=t(i,1e3)}var n=this;n.time=0,n.start=function(){i()},n.stop=function(){t.cancel(n.timeout)},n.reset=function(){n.time=0}}angular.module("app").controller("ThirtyCtrl",ThirtyCtrl),ThirtyCtrl.$inject=["$timeout"];
+var app = angular.module('app', [
+	'ui.router',
+	'ngAnimate',
+	'battleFilter',
+	'youtube-embed'
+]);
+
+angular.module('battleFilter', []).filter('battle', function() {
+    return function(input, used) {
+
+        if (input && used) {
+            return used.indexOf(input[0].body) == -1 ? input : false;
+        }
+    };
+}).filter('objectByKeyValFilter', function() {
+    return function(input, filterKey, filterVal) {
+
+        var filteredInput = {};
+
+        angular.forEach(input, function(value, key) {
+            if (value[filterKey] && value[filterKey] == filterVal) {
+                filteredInput[key] = value;
+            }
+        });
+        return filteredInput;
+    }
+});
+
+angular
+    .module('app')
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider,   $urlRouterProvider) {
+
+        $urlRouterProvider.otherwise('/');
+        $stateProvider
+        .state('home', {
+          url: '/',
+          templateUrl: 'moves/moves.html'
+        })
+        .state('thirty', {
+            url: '/tools/3030',
+            templateUrl: 'tools/thirty.html'
+        })
+        .state('battle', {
+            url: '/tools/battle-mode',
+            templateUrl: 'tools/battle-mode.html'
+        })
+        .state('profile', {
+            url: '/profile',
+            templateUrl: 'user/profile.html'
+        })
+    }
+]).run(["$rootScope", "$state", function($rootScope, $state) {
+    $rootScope.$state = $state;
+}]);
+
+angular
+    .module('app')
+    .controller('modalCtr', modalCtr);
+
+function modalCtr($scope) {
+
+    this.modalOpen = function(clip) {
+        $scope.modalVideo = clip;
+        this.modalToggle();
+    }
+
+}
+modalCtr.$inject = ["$scope"];
+
+angular
+    .module('app')
+    .directive('move', Move);
+
+function Move(MovesSvc) {
+    var directive = {
+        restrict: 'E',
+        templateUrl: 'move.html',
+        scope: true,
+        link: link
+    }
+
+    return directive;
+
+    function link($scope, elem, attrs) {
+
+        $scope.editToggle = function() {
+            $scope.editMode = !$scope.editMode;
+        }
+
+        $scope.updateMove = function(id) {
+            MovesSvc.update(id, {
+                body: $scope.moveEditName,
+                clip: $scope.moveEditClip,
+            }).success(function(move) {
+                $scope.editMode = false;
+                elem.find('h4').text(move.body);
+                elem.find('.move-clip').attr('url', move.clip);
+            });
+        }
+    }
+
+}
+Move.$inject = ["MovesSvc"];;
+
+angular
+    .module('app')
+    .directive('videoModal', videoModal);
+
+function videoModal() {
+    return {
+        restrict: 'E',
+        templateUrl: 'video.html',
+        scope : false,
+        link: function(scope, elem, attrs) {
+            elem.on('click', function() {
+                scope.$apply(function() {
+                    scope.closeModal();
+                });
+            });
+        }
+    }
+};
+
+angular
+    .module('app')
+    .directive('videoToggle', videoToggle);
+
+function videoToggle() {
+    return {
+        restrict: 'E',
+        template: '<span><img src="/img/video.svg">Watch Here</span>',
+        scope : false,
+        link: function(scope, elem, attrs) {
+            elem.on('click', function() {
+                scope.$apply(function() {
+                    scope.modalOpen(attrs.url);
+                });
+            });
+        }
+    }
+};
+
+angular
+    .module('app')
+    .controller('MovesCtr', MovesCtr);
+
+function MovesCtr($scope, MovesSvc) {
+
+    var vm = this;
+
+    vm.newMove = false;
+
+    MovesSvc.fetch().success(function(moves) {
+        vm.moves = moves;
+    });
+
+    $scope.modalVideo = 'https://www.youtube.com/watch?v=18-xvIjH8T4';
+    $scope.videoShow = false;
+
+    $scope.modalOpen = function(clip) {
+        console.log(clip);
+        $scope.modalVideo = clip;
+        $scope.videoShow = !$scope.videoShow;
+    };
+
+    $scope.closeModal = function() {
+        $scope.videoShow = false;
+    };
+
+    vm.btnToggle = function(newMove) {
+
+        return !newMove ? 'Add New Move' : 'Cancel';
+    }
+
+    vm.addMove = function() {
+        if (vm.moveBody) {
+            MovesSvc.create({
+                username: 'tora',
+                body: vm.moveBody,
+                type: vm.moveType,
+                value: vm.moveValue,
+                clip: vm.moveClip,
+            }).success(function(move) {
+                vm.moves.unshift(move);
+                vm.moveBody = null
+            });
+        }
+    }
+
+}
+MovesCtr.$inject = ["$scope", "MovesSvc"];;
+
+angular.module('app')
+    .service('MovesSvc', MovesSvc);
+
+function MovesSvc($http) {
+    var vm = this;
+
+    vm.fetch = fetch;
+    vm.fetchOne = fetchOne;
+    vm.create = create;
+    vm.update = update;
+
+    function fetch() {
+        return $http.get('/api/moves');
+    }
+
+    function fetchOne(id, move) {
+        return $http.get('/api/moves/' + id, move);
+    }
+
+    function create(move) {
+        return $http.post('/api/moves', move);
+    }
+
+    function update(id, move) {
+        return $http.post('/api/moves/' + id, move);
+    }
+
+}
+MovesSvc.$inject = ["$http"];;
+
+angular
+    .module('app')
+    .controller('BattleCtrl', BattleCtrl);
+
+function BattleCtrl(MovesSvc) {
+
+    var _this = this;
+
+    _this.newMove = false;
+    _this.used = [];
+
+    MovesSvc.fetch().success(function(moves) {
+        _this.moves = moves;
+    });
+
+    _this.useMove = function(moveId) {
+        _this.used.push(moveId);
+    }
+
+    _this.endBattle = function(moveId) {
+        _this.used = [];
+    }
+
+}
+BattleCtrl.$inject = ["MovesSvc"];;
+
+angular
+    .module('app')
+    .controller('ThirtyCtrl', ThirtyCtrl);
+
+function ThirtyCtrl($timeout) {
+
+    var _this = this;
+
+    _this.time = 0;
+
+    function countdown() {
+        _this.time++;
+        _this.timeout = $timeout(countdown, 1000);
+    }
+
+    _this.start = function() {
+        countdown();
+    };
+
+    _this.stop = function() {
+        $timeout.cancel(_this.timeout);
+    };
+
+    _this.reset = function() {
+        _this.time = 0;
+    };
+}
+ThirtyCtrl.$inject = ["$timeout"];;

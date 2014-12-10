@@ -2,71 +2,47 @@ angular
     .module('app')
     .controller('MovesCtr', MovesCtr);
 
-function MovesCtr(MovesSvc) {
+function MovesCtr($scope, MovesSvc) {
 
-    var _this = this;
+    var vm = this;
 
-    _this.newMove = false;
+    vm.newMove = false;
 
     MovesSvc.fetch().success(function(moves) {
-        _this.moves = moves;
+        vm.moves = moves;
     });
 
-    _this.modalVideo = 'https://www.youtube.com/watch?v=18-xvIjH8T4';
-    _this.videoModal = false;
-    _this.modalOrigin = '0% 0%';
+    $scope.modalVideo = 'https://www.youtube.com/watch?v=18-xvIjH8T4';
+    $scope.videoShow = false;
 
-    _this.modalToggle = function() {
-        _this.videoModal = !_this.videoModal;
-    }
+    $scope.modalOpen = function(clip) {
+        console.log(clip);
+        $scope.modalVideo = clip;
+        $scope.videoShow = !$scope.videoShow;
+    };
 
-    _this.modalOpen = function(event, clip) {
-        _this.modalVideo = clip;
-        _this.modalOrigin = event.screenX + 'px ' + event.screenY + 'px';
-        _this.videoModal = !_this.videoModal;
-    }
+    $scope.closeModal = function() {
+        $scope.videoShow = false;
+    };
 
-    _this.btnToggle = function(newMove) {
+    vm.btnToggle = function(newMove) {
+
         return !newMove ? 'Add New Move' : 'Cancel';
     }
 
-    _this.addMove = function() {
-        if (_this.moveBody) {
+    vm.addMove = function() {
+        if (vm.moveBody) {
             MovesSvc.create({
                 username: 'tora',
-                body: _this.moveBody,
-                type: _this.moveType,
-                value: _this.moveValue,
-                clip: _this.moveClip,
+                body: vm.moveBody,
+                type: vm.moveType,
+                value: vm.moveValue,
+                clip: vm.moveClip,
             }).success(function(move) {
-                _this.moves.unshift(move);
-                _this.moveBody = null
+                vm.moves.unshift(move);
+                vm.moveBody = null
             });
         }
     }
+
 };
-
-app.directive('move', function(MovesSvc) {
-    return {
-        restrict: 'E',
-        templateUrl: 'move.html',
-        scope: true,
-        link: function($scope, elem, attrs) {
-
-            $scope.editToggle = function() {
-                $scope.editMode = !$scope.editMode;
-            }
-
-            $scope.updateMove = function(id) {
-                MovesSvc.update(id, {
-                    body: $scope.moveEditName,
-                    clip: $scope.moveEditClip,
-                }).success(function(move) {
-                    elem.find('h4').text(move.body);
-                    elem.find('.move-clip').attr('url', move.clip);
-                    $scope.editMode = false;
-                });
-            }
-        }
-    }
-});

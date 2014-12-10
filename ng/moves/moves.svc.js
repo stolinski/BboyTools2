@@ -2,12 +2,12 @@ angular.module('app')
     .service('MovesSvc', MovesSvc);
 
 function MovesSvc($http) {
-    var _this = this;
+    var vm = this;
 
-    _this.fetch = fetch;
-    _this.fetchOne = fetchOne;
-    _this.create = create;
-    _this.update = update;
+    vm.fetch = fetch;
+    vm.fetchOne = fetchOne;
+    vm.create = create;
+    vm.update = update;
 
     function fetch() {
         return $http.get('/api/moves');
