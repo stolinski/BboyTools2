@@ -16,7 +16,6 @@ function MovesCtr($scope, MovesSvc) {
     $scope.videoShow = false;
 
     $scope.modalOpen = function(clip) {
-        console.log(clip);
         $scope.modalVideo = clip;
         $scope.videoShow = !$scope.videoShow;
     };

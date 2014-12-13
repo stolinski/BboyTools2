@@ -81,18 +81,18 @@ function Move(MovesSvc) {
 
     return directive;
 
-    function link($scope, elem, attrs) {
+    function link(scope, elem, attrs) {
 
-        $scope.editToggle = function() {
-            $scope.editMode = !$scope.editMode;
+        scope.editToggle = function() {
+            scope.editMode = !scope.editMode;
         }
 
-        $scope.updateMove = function(id) {
+        scope.updateMove = function(id) {
             MovesSvc.update(id, {
-                body: $scope.moveEditName,
-                clip: $scope.moveEditClip,
+                body: scope.moveEditName,
+                clip: scope.moveEditClip,
             }).success(function(move) {
-                $scope.editMode = false;
+                scope.editMode = false;
                 elem.find('h4').text(move.body);
                 elem.find('.move-clip').attr('url', move.clip);
             });
@@ -158,7 +158,6 @@ function MovesCtr($scope, MovesSvc) {
     $scope.videoShow = false;
 
     $scope.modalOpen = function(clip) {
-        console.log(clip);
         $scope.modalVideo = clip;
         $scope.videoShow = !$scope.videoShow;
     };
